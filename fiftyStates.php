@@ -9,7 +9,7 @@
         <?php
         $i = 1;
         while ($i <= 50) {
-            echo $i.' <input align="justify" type="text" name="state"/><br/>';
+            echo $i.'<input align="justify" type="text" name="state"/><br/>';
             $i++;
         }
         ?>
