@@ -1,0 +1,126 @@
+html, body {
+    min-width: 800px;
+    overflow-x: scroll;
+}
+#menu {
+    background-color: #cccccc;
+    height: 100px;
+    width: 96%;
+    margin: 0 auto;
+    box-shadow: 7px 7px 3px #888888;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+    display: block;
+    clear: both;
+}
+#name {
+    font-family: Georgia, serif;
+    color: #0073ea;
+    padding-top: 0.65em;
+    padding-left: 0.5em;
+    float: left;
+    font-size: 1.6em;
+    text-transform: uppercase;
+}
+nav ul {
+    list-style-type: none;
+    padding-top: 1em;
+    padding-right: 1em;
+}
+nav ul li {
+    margin-top: 0.5em;
+    font-weight: bold;
+    float: right;
+    color: #0073ea;
+    background-color: #f6f6f6;
+    text-align: center;
+    padding: 4px;
+    height: 1.65em;
+    font-size: 1.25em;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+ nav ul li:hover, li:active {
+    background-color: white;
+    display: block;
+    color: #F97D24;
+}
+tr:nth-child(even) {
+    background-color: #cccccc;
+}
+td:nth-child(odd) {
+    width: 150px;
+}
+table, td {
+    border: 1px solid #1B1B1B;
+}
+table {
+    width: 40%;
+    border-collapse: collapse;
+    margin: 15px;
+    box-shadow: 3px 3px 1px #888888;
+    font-family: Georgia, "Times New Roman", Times, serif;
+}
+#recipeList .ui-selecting { 
+    background: #0073ea; 
+}
+#recipeList .ui-selected { 
+    background: white; 
+    color: #F97D24; 
+}
+#recipeList { 
+    list-style-type: none; 
+    margin: 0; 
+    padding: 0; 
+    width: 60%; 
+}
+#recipeList li { 
+    margin: 3px; 
+    padding: 0.4em; 
+    font-size: 1.4em; 
+    height: 18px; 
+}
+#container {
+    margin: 15px;
+}
+#list {
+    display: none;
+}
+.ui-autocomplete {
+    max-height: 175px;
+    overflow-y: auto;
+    /* prevent horizontal scrollbar */
+    overflow-x: hidden;
+}
+.acd {
+    font-size: 0.75em;
+}
+.details {
+    display: none;
+}
+.details h2, h4 {
+    text-align: center;
+}
+.details table {
+    margin-left: auto;
+    margin-right: auto;
+}
+#tabs {
+    display: none;
+}
+#how {
+    font-family: Helvetica, Arial, sans-serif;
+}
+#how section {
+    display: none;
+}
+#how .title{
+    text-decoration: none;
+    display: block;
+    width: 700px;
+    color: #444;
+    background-color: white;
+    border: 1px solid #ddd;
+    font-family: Tinos, Times, serif;
+}
+

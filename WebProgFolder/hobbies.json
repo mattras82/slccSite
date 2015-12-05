@@ -1,0 +1,32 @@
+{
+    "hobbies": [{
+            "name": "Guitar",
+            "since": "14",
+            "img": "guitar.jpg",
+            "desc": "Writing, playing, and performing on my guitar is one of my favorite ways to spend my time. My favorite artists to play are John Mayer, City & Color, and Death Cab for Cutie."
+        },
+        {
+            "name": "Snowboarding",
+            "since": "18",
+            "img": "snowboarding.jpg",
+            "desc": "I always hated winters in Utah...until I started snowboarding. I love the freeing feeling of carving my way down an empty mountain with a couple of friends."
+        },
+        {
+            "name": "Netflix",
+            "since": "17",
+            "img": "netflix.jpg",
+            "desc": "Sometimes I think I should become a professional Netflix viewer. My wife and I love curling up with a big bowl of popcorn and an entire season of a good TV show."
+        },
+        {
+            "name": "Eating",
+            "since": "1",
+            "img": "burrito.jpg",
+            "desc": "Eating food is probably the most dangerous of my hobbies. It's pretty hard to keep me away from a smothered burrito from La Puente or a good ol' milkshake and order of cheese fries from Leatherby's."
+        },
+        {
+            "name": "Family Time",
+            "since": "21",
+            "img": "family.jpg",
+            "desc": "I married my best friend on September 10, 2014. We got a wonderful cocker spaniel named Mosby soon after. My favorite part of the day is coming home from work/school to see their beautiful faces."
+        }]
+}

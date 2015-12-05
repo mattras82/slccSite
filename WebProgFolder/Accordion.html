@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>jQuery Accordion</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js">
+        </script>
+        <script src="js/jquery.js"></script>
+        <script src="js/jquery.validate.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                $('#person').validate({
+                    rules: {
+                        fname: "required",
+                        lname: "required"
+                    },
+                    submitHandler: function(form) {
+                        console.log("Form has submitted");
+                    }
+                });
+                $('#accordion a').click(function(evt) {
+                    evt.preventDefault();
+                    var text = $(this).next();
+                    var rest = $('#accordion section');
+                    rest.slideUp(300);
+                    text.slideToggle(300);
+                    $('#accordion a').css('background-color', '#003333');
+                    $(this).css('background-color', 'white');
+                }); //end click
+                $('#accordion #send').click(function(evt) {
+                    evt.preventDefault();
+                    var table = $('#result');
+                    table.slideDown();
+                });//end click of submit button
+                $('.degree').click(function(evt){
+                    evt.preventDefault();
+                    if ($(this).val() !== "None") {
+                        $('.opt').slideDown(200);
+                    } else {
+                        $('.opt').hide(200);
+                    }
+                });//end degree click
+            }); //end ready
+        </script>
+        <script>
+            function showText(input, name) {
+                document.getElementById(name).innerHTML = input.value;
+            }
+            function showTextB(input, name) {
+                var checkboxes = input;
+                var vals = "";
+                for (var i=0; i<checkboxes.length; i++) {
+                    if (checkboxes[i].checked) {
+                        vals += ", " + checkboxes[i].value;
+                    }
+                }
+                if (vals) vals = vals.substring(2);
+                document.getElementById(name).innerHTML = vals;
+            }
+        </script>
+        <style>
+            #accordion section {
+                display: none;
+                font-family: monospace;
+                color: #003333;
+            }
+            #result {
+                display: none;
+            }
+            h3 {
+                padding: .25em;
+            }
+            #accordion a {
+                text-decoration: none;
+                color: #cccccc;
+                display: block;
+                width: 500px;
+                background-color: #003333;
+                font-family: Helvetica, sans-serif;
+            }
+            .close {
+                color: #003333;
+                font-family: fantasy;
+            }
+            tr:nth-child(even) {
+                background-color: #cccccc;
+            }
+            td:nth-child(odd) {
+                width: 150px;
+                text-align: right;
+            }
+            table, td {
+                border: 1px solid #1B1B1B;
+            }
+            .opt {
+                display: none;
+            }
+            table {
+                width: 40%;
+                border-collapse: collapse;
+                margin: 15px;
+                box-shadow: 3px 3px 1px #888888;
+                font-family: Georgia, "Times New Roman", Times, serif;
+            }
+            #send {
+                margin: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <div align='center' id="accordion">
+            <form name="person" id="person">
+            <div id="personal"><a href="#"><h3>Personal</h3></a>
+                <div>
+                        <p>First Name:<input oninput='showText(this.form.fname, "fname")' type="text" name="fname"/></p>
+                        <p>Last Name:<input oninput='showText(this.form.lname, "lname")' type="text" name="lname"/></p>
+                        <p>Sex:<input onchange="showText(this.form.sex, 'sex')" type="radio" value="Male" name="sex"/>Male
+                            <input onchange="showText(this.form.sex, 'sex')" type="radio" value="Female" name="sex"/>Female</p>
+                </div>
+            </div>
+            <div id="school"><a href="#"><h3>School</h3></a>
+                <section>
+                        <p>Please fill out according to your most recent degree.</p>
+                        <p><input onchange="showText(this.form.degree, 'degree')" type="radio" name="degree" class="degree" value="Associates"/>Associates
+                            <input onchange="showText(this.form.degree, 'degree')" type='radio' name='degree' class="degree" value='Bachelors'/>Bachelors
+                            <input onchange="showText(this.form.degree, 'degree')" type='radio' name='degree' class="degree" value='Masters'/>Masters
+                            <input onchange="showText(this.form.degree, 'degree')" type='radio' name='degree' class="degree" value='PhD'/>Doctorates
+                            <input onchange="showText(this.form.degree, 'degree')" type='radio' name='degree' class="degree" value='None'/>None</p>
+                        <p class="opt"><select onchange="showText(this.form.year, 'year')" name="year">
+                            <option value="">Year</option><option value='2015'>2015</option><option value='2014'>2014</option><option value='2013'>2013</option><option value='2012'>2012</option><option value='2011'>2011</option><option value='2010'>2010</option><option value='2009'>2009</option><option value='2008'>2008</option><option value='2007'>2007</option><option value='2006'>2006</option><option value='2005'>2005</option><option value='2004'>2004</option><option value='2003'>2003</option><option value='2002'>2002</option><option value='2001'>2001</option><option value='2000'>2000</option><option value='1999'>1999</option><option value='1998'>1998</option><option value='1997'>1997</option><option value='1996'>1996</option><option value='1995'>1995</option><option value='1994'>1994</option><option value='1993'>1993</option><option value='1992'>1992</option><option value='1991'>1991</option><option value='1990'>1990</option><option value='1989'>1989</option><option value='1988'>1988</option><option value='1987'>1987</option><option value='1986'>1986</option><option value='1985'>1985</option><option value='1984'>1984</option><option value='1983'>1983</option><option value='1982'>1982</option><option value='1981'>1981</option><option value='1980'>1980</option><option value='1979'>1979</option><option value='1978'>1978</option><option value='1977'>1977</option><option value='1976'>1976</option><option value='1975'>1975</option><option value='1974'>1974</option><option value='1973'>1973</option><option value='1972'>1972</option><option value='1971'>1971</option><option value='1970'>1970</option><option value='1969'>1969</option><option value='1968'>1968</option><option value='1967'>1967</option><option value='1966'>1966</option><option value='1965'>1965</option><option value='1964'>1964</option><option value='1963'>1963</option><option value='1962'>1962</option><option value='1961'>1961</option><option value='1960'>1960</option><option value='1959'>1959</option><option value='1958'>1958</option><option value='1957'>1957</option><option value='1956'>1956</option><option value='1955'>1955</option><option value='1954'>1954</option><option value='1953'>1953</option><option value='1952'>1952</option><option value='1951'>1951</option></select>
+                            School:<input oninput="showText(this.form.deg_school, 'deg_school')" type='text' name='deg_school'/></p>   
+                </section>
+            </div>
+            <div id="hobbies"><a href="#"><h3>Hobbies</h3></a>
+                <section>
+                        <input onchange='showTextB(this.form.hobby, "hobby")' type='checkbox' name='hobby' value='Camping'/>Camping
+                        <input onchange='showTextB(this.form.hobby, "hobby")' type='checkbox' name='hobby' value='Running'/>Running
+                        <input onchange='showTextB(this.form.hobby, "hobby")' type='checkbox' name='hobby' value='Music'/>Music
+                        <input onchange='showTextB(this.form.hobby, "hobby")' type='checkbox' name='hobby' value='Sewing'/>Sewing
+                        <input onchange='showTextB(this.form.hobby, "hobby")' type='checkbox' name='hobby' value='Beer Brewing'/>Beer Brewing
+                        <input onchange='showTextB(this.form.hobby, "hobby")' type='checkbox' name='hobby' value='Netflix'/>Netflix
+                        <input onchange='showTextB(this.form.hobby, "hobby")' type='checkbox' name='hobby' value='Eating'/>Eating
+                </section>
+            </div>
+            <div id="mus"><a href="#"><h3>Music</h3></a>
+                <section>
+                        <input onchange='showTextB(this.form.music, "music")' type='checkbox' name='music' value='Rock'/>Rock
+                        <input onchange='showTextB(this.form.music, "music")' type='checkbox' name='music' value='Country'/>Country
+                        <input onchange='showTextB(this.form.music, "music")' type='checkbox' name='music' value='Classical'/>Classical
+                        <input onchange='showTextB(this.form.music, "music")' type='checkbox' name='music' value='Indie'/>Indie
+                        <input onchange='showTextB(this.form.music, "music")' type='checkbox' name='music' value='Rap'/>Rap
+                        <input onchange='showTextB(this.form.music, "music")' type='checkbox' name='music' value='Electronic'/>Electronic
+                        <input onchange='showTextB(this.form.music, "music")' type='checkbox' name='music' value='Jazz'/>Jazz
+                        <input onchange='showTextB(this.form.music, "music")' type='checkbox' name='music' value='Blues'/>Blues
+                </section>
+            </div>
+            <input id="send" type="submit"/>
+            </form>
+        </div>
+        <div align='center' id='result'>
+            <table>
+                <tr>
+                    <td>First Name</td>
+                    <td id="fname"></td>
+                </tr>
+                <tr>
+                    <td>Last Name</td>
+                    <td id="lname"></td>
+                </tr>
+                <tr>
+                    <td>Sex</td>
+                    <td id="sex"></td>
+                </tr>
+                <tr>
+                    <td>Degree Type</td>
+                    <td id="degree"></td>
+                </tr>
+                <tr class="opt">
+                    <td>Degree Year</td>
+                    <td id="year"></td>
+                </tr>
+                <tr class="opt">
+                    <td>School</td>
+                    <td id="deg_school"></td>
+                </tr>
+                <tr>
+                    <td>Hobby List</td>
+                    <td id='hobby'></td>
+                </tr>
+                <tr>
+                    <td>Music</td>
+                    <td id="music"></td>
+                </tr>
+            </table>
+        </div>
+    </body>
+</html>

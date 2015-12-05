@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Hobbies Carousel</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script type="text/javascript" src="jquery.js"></script>
+        <script type="text/javascript" src="jquery-cycle-all.js"></script>
+        <script type="text/javascript">
+            var html=' ';
+            $(document).ready(function () {
+                console.log('ready');
+                //Load the JSON file once the page is ready
+                $.getJSON('hobbies.json', function (data) {
+                    //Loop through each initial object in the file (1)
+                    $.each(data, function (key, value) {
+                        //Loop through each object in the 'hobbies' object (6)
+                        $.each(value, function (index, stuff) {
+                            //Creates string 'html' that contains elements loaded
+                            //with the values from each JSON hobby object
+                            html += '<div class="hobbies">';
+                            html += '<h3 align="center" id="name">' + stuff.name + '</h3>';
+                            html += '<h5 align="center">I\'ve been doing this since the age '+
+                                'of ' + stuff.since + '</h5>';
+                            html += '<div class="cycle"><img src="images/' + stuff.img + '"/>';
+                            html += '<p class="text">' + stuff.desc + '</p></div></div>';
+                        });
+                    });
+                    //Set the 'hobbies' element in the html w/ the html string
+                    //created above
+                    $('#hobbies').html(html);
+                    //Calls the 'cycle' function of the included JQuery
+                    $('#hobbies').cycle({
+                        fx: 'toss',
+                        pause: '1',
+                        prev: '#prev',
+                        next: '#next',
+                        speed: 800,
+                        timeout: 0
+                    });
+                });
+            });
+        </script>
+        <style>
+            .hobbies {
+                width: 300px;
+                height: 150px;
+            }
+            td.hobbies {
+                width: 250px;
+                height: 400px;
+            }
+            .cycle img{
+                display: block;
+                position: relative;
+                width: 100%;
+            }
+            .text {
+                position: absolute;
+                left: 0;
+                top: 150px;
+                width: 100%;
+                opacity: 0;
+            }
+            .cycle img:hover{
+                opacity: .1;
+            }
+            .cycle img:hover ~ .text {
+                opacity: 1;
+            }
+        </style>
+    </head>
+    <body>
+        <div><h2 align="center">Carousel Of Matt's Hobbies</h2></div>
+        <div>
+            <table align="center">
+                <tr>
+                    <td valign="top"><a href="#" id="prev"><img width="80" src="images/prev.png"/></a></td>
+                    <td valign="middle"><div id='hobbies' class="hobbies"></div></td>
+                    <td valign="top"><a href='#' id="next"><img width="80" src="images/next.png"/></a></td>
+                </tr>
+                <tr></tr>
+            </table>
+        </div>
+    </body>
+</html>

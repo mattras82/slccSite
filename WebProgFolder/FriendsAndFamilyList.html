@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <style>
+            td {
+               padding: 5px;
+            }
+            #firstName {
+                text-align: left;
+            }
+            #nameHead {
+                text-align: left;
+            }
+            #socialMedia {
+                text-align: right;
+            }
+            #socialHead {
+                text-align: center;
+            }
+        </style>
+        <script type="text/javascript" src="FriendsAndFamily.js"></script>
+        <script type="application/javascript">
+            function loadJSON(){
+            var len = List.length;
+            var x = 0;
+            var select = [false, false, false, false, false, false, false, false, false, false, false, false, false, false];
+            while (x < len) {
+            var nameMatches = false;
+            if (document.getElementById("name").value == List[x].Last_Name || 
+            document.getElementById("name").value == List[x].First_Name) {
+            nameMatches = true;
+            }
+            if (document.getElementById("name").value == "" && 
+            document.getElementById("relation").value == List[x].Relation) {
+            select[x] = true;
+            }
+            if (document.getElementById("relation").value == "" && nameMatches) {
+            select[x] = true;
+            }
+            if (document.getElementById("relation").value == List[x].Relation && nameMatches) {
+            select[x] = true;
+            }
+            if (document.getElementById("name").value == "" && document.getElementById("relation").value == "") {
+            select[x] = true;
+            }
+            x++;
+            }
+            var y = 0;
+            document.getElementById("firstName").innerHTML = "";
+            document.getElementById("socialMedia").innerHTML = "";
+            while (y < select.length) {
+                if (select[y]) {
+                    document.getElementById("firstName").innerHTML += List[y].First_Name + "<br>";
+                    var social = List[y].Social;
+                    if (social == "none") {
+                        social = "404 - Online Presence Not Found";
+                        document.getElementById("socialMedia").innerHTML += social + "<br>";
+                    } else {
+                        document.getElementById("socialMedia").innerHTML += "<a href=\"" + social 
+                            + "\">" + social + "</a><br>";
+                    }
+                }
+                y++;        
+            }
+            }
+        </script>
+        <title>Friends&Family</title>
+    </head>
+    <body>
+        <h2>Friends & Family with external Javascript/JSON</h2>
+        <div><form>
+                <p>First or Last name: <input type="text" id="name" oninput="loadJSON()">
+                    Relationship: <select id="relation" onchange="loadJSON()">
+                        <option value=""></option>
+                        <option value="mom">Mother</option>
+                        <option value="dad">Father</option>
+                        <option value="bro">Brother</option>
+                        <option value="sis">Sister</option>
+                        <option value="wife">Spouse</option>
+                        <option value="friend">Friend</option>
+                        <option value="bf">Best Friend</option>				
+                    </select></p>			
+            </form></div>
+        <div>
+            <table>
+                <tr>
+                    <th colspan="2">Results</th>					
+                </tr>
+                <tr>
+                    <td id="nameHead">First Name</td>
+                    <td id="socialHead">Social Media</td>					
+                </tr>
+                <tr>
+                    <td><div id="firstName">None Selected</div></td>
+                    <td><div id="socialMedia">None Selected</div></td>
+                </tr>
+            </table>			
+        </div>
+    </body>
+</html>

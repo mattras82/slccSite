@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>3 Tab jQuery</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="styles/jquery-ui.min.css">
+        <script src="js/jquery.js"></script>
+        <script src="js/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="js/hops.js"></script>
+        <script type="text/javascript" src="js/yeast.js"></script>
+        <script>
+            var recipes = {
+                "names": ["Pale Ale", "Johnny Boy's Wheat"],
+                "grains": ['<table id="grainTable"><tbody><tr><th>Grain</th><th>Amount</th><th>Percentage</th></tr><tr><td>Pale (2-Row)</td><td>5 lb(s)</td><td class="tableRatio">73.39</td></tr><tr><td>Caramel 60L</td><td>0.5 lb(s)</td><td class="tableRatio">7.34</td></tr><tr><td>Caramel 20L</td><td>0.5 lb(s)</td><td class="tableRatio">7.34</td></tr><tr><td>CaraPils</td><td>5 oz</td><td class="tableRatio">4.59</td></tr><tr><td>Victory</td><td>8 oz</td><td class="tableRatio">7.34</td></tr><tr id="totalRow"><td></td><td id="totalDet" colspan="2" align="right">Total: 6.813 lbs</td></tr></tbody></table>', '<table id="grainTable"><tbody><tr><th>Grain</th><th>Amount</th><th>Percentage</th></tr><tr><td>Pale (2-Row)</td><td>6.5 lb(s)</td><td class="tableRatio">59.77</td></tr><tr><td>Wheat (Flaked)</td><td>4.25 lb(s)</td><td class="tableRatio">39.08</td></tr><tr><td>CaraPils</td><td>2 oz</td><td class="tableRatio">1.15</td></tr><tr id="totalRow"><td></td><td id="totalDet" colspan="2" align="right">Total: 10.875 lbs</td></tr></tbody></table>'],
+                "hops": ['<table id="hopTable"><tbody><tr><th>Hop</th><th>AA%</th><th>Time</th></tr><tr><td>1oz Amarillo</td><td>9.5</td><td>60mins (Boil)</td></tr><tr><td>0.5oz Casade</td><td>5.5</td><td>10mins (Boil)</td></tr><tr><td>0.5oz Casade</td><td>5.5</td><td>0mins (Boil)</td></tr><tr><td>1oz Casade</td><td>5.5</td><td>3days (Dry Hop)</td></tr><tr id="hopEnd"><td colspan="3"></td></tr></tbody></table>', '<table id="hopTable"><tbody><tr><th>Hop</th><th>AA%</th><th>Time</th></tr><tr><td>1oz Mt Hood</td><td>4</td><td>60mins (Boil)</td></tr><tr id="hopEnd"><td colspan="3"></td></tr></tbody></table>'],
+                "yeast": ["SafAle US-05", "Wyeast 3333"]
+            };
+            $(document).ready(function () {
+                addToList();
+                $(function () {
+                    $("#tabs").tabs();
+                    $(document).tooltip();
+                    $("input[type=submit]").button();
+                    $('#recipeList').selectable({
+                        stop: function () {
+                            var div = "<div>";
+                            $('#recipeDetailsContainer').empty();
+                            $(".ui-selected", this).each(function () {
+                                var index = $("#recipeList li").index(this);
+                                var name = recipes.names[index];
+                                var grain = recipes.grains[index];
+                                var hop = recipes.hops[index];
+                                var yeast = recipes.yeast[index];
+                                div += "<h2>" + name + "</h2><h4>" + yeast + "</h4>";
+                                div += "<section>" + grain + "</section>";
+                                div += "<section>" + hop + "</section></div>";
+                                $('#recipeDetailsContainer').append(div);
+                            });//end each
+                            $('.details').show();
+                        }//end stop function
+                    });//end selectable
+                    $('#hopName').autocomplete({
+                        minLength: 0,
+                        source: hops,
+                        select: function (event, ui) {
+                            $('#hopAcid').val(ui.item.acid);
+                            $('#hopName').val(ui.item.value);
+                            return false;
+                        }
+                    }).autocomplete("instance")._renderItem = function (ul, item) {
+                        return $("<li>")
+                                .append("<a>" + item.value + "<p class='acd'>" + item.desc + "</p></a>")
+                                .appendTo(ul);
+                    };//end autocomplete
+                    $('#yeastName').autocomplete({
+                        minLength: 0,
+                        source: yeast,
+                        select: function (event, ui) {
+                            $('#yeastName').val(ui.item.value);
+                            return false;
+                        }
+                    }).autocomplete("instance")._renderItem = function (ul, item) {
+                        var mfg = $('#yeastMfg').val();
+                        if (item.mfg === mfg) {
+                            return $("<li>")
+                                    .append("<a>" + item.value + "<p class='acd'>" + item.desc + "</p></a>")
+                                    .appendTo(ul);
+                        }
+                    };//end autocomplete
+                    $('.menuitem').click(function (evt) {
+                        var id = $(this).attr('id');
+                        if (id === 'recbuild') {
+                            $('#how').hide();
+                            $('#tabs').show();
+                            $('#list').hide();
+                        } else if (id === 'reclist') {
+                            $('#how').hide();
+                            $('#tabs').hide();
+                            $('#list').show();
+                        } else if (id === 'howto') {
+                            $('#how').show();
+                            $('#tabs').hide();
+                            $('#list').hide();
+                        }
+                    });//end menuitem click
+                    $('#accordion a').click(function (evt) {
+                        if ($(this).attr('id') === 'link') {
+                            return;
+                        }
+                        evt.preventDefault();
+                        var text = $(this).next();
+                        var rest = $('#accordion section');
+                        if ($(this).css('color') === 'rgb(249, 125, 36)') {
+                            $(this).css('color', '#444');
+                            text.slideUp(300);
+                            return;
+                        }
+                        rest.slideUp(300);
+                        text.slideToggle(300);
+                        $('#accordion .title').css('color', '#444');
+                        text.css('width', '650px');
+                        $(this).css('color', '#F97D24');
+                    }); //end click
+                });//end function  
+            });//end of ready
+            //First tab scripts ----------
+            var total = 0;
+            var amounts = [];
+            var grainDone = false;
+            function add() {
+                var grain = $('#grain').val();
+                var amount = parseFloat($('#grainSize').val());
+                var type = $('#grainSizeType').val();
+                var amnt = 0;
+                if (type === 'oz') {
+                    amnt = +(amount / 16).toFixed(3);
+                } else {
+                    amnt = amount;
+                }
+                total += amnt;
+                amounts.push(amnt);
+                var ratio = +((100 * amnt) / total).toFixed(2);
+                var html = "<tr>";
+                html += "<td>" + grain + "</td>";
+                html += "<td>" + amount + " " + type + "</td>";
+                html += "<td class='tableRatio'>" + ratio + "</td>";
+                html += "</tr>";
+                $('#totalRow').before(html);
+                alterTotals();
+                var totalHtml = "Total: " + total.toFixed(3) + " lbs";
+                $('#totalDet').text(totalHtml);
+                grainDone = true;
+                return false;
+            }
+            function alterTotals() {
+                var ratios = [];
+                $('.tableRatio').each(function (index, element) {
+                    ratios.push($(element));
+                });
+                for (var i = 0; i < amounts.length; i++) {
+                    var amnt = amounts[i];
+                    var newAmnt = +(((100 * amnt) / total).toFixed(2));
+                    ratios[i].text(newAmnt);
+                }
+            }
+            function saveRecipe() {
+                if (grainDone === false) {
+                    alert("Please add at least 1 grain to the recipe");
+                    return false;
+                } else if (hopDone === false) {
+                    alert("Please add at least 1 hop addition to the recipe");
+                    return false;
+                } else if (yeastDone === false) {
+                    alert("Please add a yeast to the recipe");
+                    return false;
+                }
+                var name = $('#recname').val();
+                if (name === "") {
+                    alert("Your recipe needs a name!");
+                    return false;
+                }
+                var grain = $('#grainTableDiv').html();
+                var hop = $('#hopTableDiv').html();
+                recipes.names.push(name);
+                recipes.grains.push(grain);
+                recipes.hops.push(hop);
+                recipes.yeast.push(yeast);
+                addToList();
+            }
+            function clearRecipe() {
+                var html = '<table id="grainTable">' +
+                        '<tr><th>Grain</th><th>Amount</th><th>Percentage</th></tr>' +
+                        '<tr id="totalRow"><td></td><td id="totalDet" colspan="2" \n\
+                        align="right">Total: 0 lbs</td></tr></table>';
+                $('#grainTableDiv table').replaceWith(html);
+                amounts = [];
+                total = 0;
+                grainDone = false;
+            }
+            //Second tab scripts ------------
+            var hopDone = false;
+            function clearHops() {
+                var html = '<table id="hopTable"><tr><th>Hop</th><th>AA%</th>' +
+                        '<th>Time</th></tr><tr id="hopEnd"><td colspan="3"></td></tr></table>';
+                $('#hopTable').replaceWith(html);
+                hopDone = false;
+            }
+            function addHops() {
+                var name = $('#hopName').val();
+                var oz = $('#hopOz').val();
+                var acid = $('#hopAcid').val();
+                var add = $('#hopAdd').val();
+                var time = $('#hopTime').val();
+                var html = "<tr><td>" + oz + "oz " + name + "</td>";
+                html += "<td>" + acid + "</td>";
+                if (add === 'Dry Hop') {
+                    html += "<td>" + time + "days (" + add + ")</td></tr>";
+                } else {
+                    html += "<td>" + time + "mins (" + add + ")</td></tr>";
+                }
+                $('#hopEnd').before(html);
+                hopDone = true;
+                return false;
+            }
+            function addToList() {
+                $('#recipeList').empty();
+                var html = "";
+                for (var i = 0; i < recipes.names.length; i++) {
+                    console.log("Names length: " + recipes.names.length);
+                    html += "<li class='ui-widget-content'>" + recipes.names[i] + "</li>";
+                }
+                $('#recipeList').append(html);
+            }
+            function hopTimeTitle() {
+                var add = $('#hopAdd').val();
+                if (add === 'Dry Hop') {
+                    $('#hopTime').attr('title', "Enter the amount of days to dry hop");
+                } else if (add === 'Mash') {
+                    $('#hopTime').attr('title', "Enter the length of the mash");
+                }
+            }
+            //Third tab scripts-------------
+            var yeast;
+            var yeastDone = false;
+            function addYeast() {
+                var name = $('#yeastName').val();
+                yeast = name;
+                yeastDone = true;
+            }
+        </script>
+        <link rel="stylesheet" href="styles/brew_layout.css">
+    </head>
+    <body>
+        <div id='menu'>
+            <h2 id='name'>Matt's Brew Site</h2>
+            <nav>
+                <ul>
+                    <li><span class='menuitem' id='recbuild'>Recipe Builder</span></li>
+                    <li><span class='menuitem' id='reclist'>My Recipes</span></li>
+                    <li><span class='menuitem' id='howto'>How To Brew</span></li>
+                </ul>
+            </nav>
+        </div>
+        <div id='container'>
+            <div id="tabs">
+                <ul>
+                    <li><a href="#tabs-1">Grains</a></li>
+                    <li><a href="#tabs-2">Hops</a></li>
+                    <li><a href="#tabs-3">Yeast</a></li>
+                </ul>
+                <h2>Build your own beer!</h2>
+                <label for="recname">Name your recipe:</label>
+                <input type="text" title="This name better be good!" name="recname" id="recname"/>
+                <input type="submit" value="Save" onclick="saveRecipe()"/>
+                <!--            First page          -->
+                <div id="tabs-1">
+                    <form onsubmit="return add()" name="recipe" id="recipe">
+                        <h4>Enter your grain bill</h4>
+                        <label for="grain">Malt:</label>
+                        <select name="grain" id="grain">
+                            <option value="Pale (2-Row)">2-Row</option>
+                            <option value="Caramel 20L">Caramel 20L</option>
+                            <option value="Caramel 60L">Caramel 60L</option>
+                            <option value="CaraPils">CaraPils</option>
+                            <option value="Pilsner">Pilsner</option>
+                            <option value="Chocolate">Chocolate</option>
+                            <option value="Munich">Munich</option>
+                            <option value="Victory">Victory</option>
+                            <option value="Oats (Flaked)">Oats, Flaked</option>
+                            <option value="Wheat (Flaked)">Wheat, Flaked</option>
+                        </select><br/>
+                        <label for="grainSize">Amount:</label>
+                        <input type="text" title="Integers and decimals are acceptable" name="grainSize" id="grainSize"/><br/>
+                        <label for="grainSizeType">Measurement:</label>
+                        <select name="grainSizeType" id="grainSizeType">
+                            <option value="lb(s)">lb(s)</option>
+                            <option value="oz">oz</option>
+                        </select><br/>
+                        <input type="submit" value="Add"/>
+                    </form>
+                    <div id="grainTableDiv">
+                        <table id="grainTable">
+                            <tr>
+                                <th>Grain</th>
+                                <th>Amount</th>
+                                <th>Percentage</th>
+                            </tr>
+                            <tr id="totalRow">
+                                <td></td>
+                                <td id="totalDet" colspan="2" align="right">Total: 0 lbs</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <input type='submit' value='Clear' onclick='clearRecipe()'/>
+                </div>
+                <!--            Second page          -->
+                <div id="tabs-2">
+                    <h4>Enter your hop schedule</h4>
+                    <form onsubmit="return addHops()" id='hopForm' class='hopForm'>
+                        <label for='hopName'>Hop Name</label>
+                        <input type='text' name='hopName' id='hopName'/><br/>
+                        <label for='hopOz'>Amount</label>
+                        <input type='text' name='hopOz' id='hopOz' title='Enter the number amount in ounces'/><br/>
+                        <label for='hopAcid'>Alpha Acid</label>
+                        <input type='text' name='hopAcid' id='hopAcid'/><br/>
+                        <label for='hopAdd'>When to Add</label>
+                        <select onchange="hopTimeTitle()" name='hopAdd' id='hopAdd'>
+                            <option value='Boil'>Boil</option>
+                            <option value='Dry Hop'>Dry Hop</option>
+                            <option value='Mash'>Mash</option>
+                            <option value='First Wort'>First Wort</option>
+                        </select><br/>
+                        <label for='hopTime'>Steep Time</label>
+                        <input type='text' name='hopTime' id='hopTime' title='Enter the amount of minutes left in the boil'/><br/>
+                        <input type="submit" value="Add"/>
+                    </form>
+                    <div id="hopTableDiv">
+                        <table id="hopTable">
+                            <tr>
+                                <th>Hop</th>
+                                <th>AA%</th>
+                                <th>Time</th>
+                            </tr>
+                            <tr id="hopEnd">
+                                <td colspan="3"></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <input onclick="clearHops()" type='submit' value='Clear'/>
+                </div>
+                <!--            Third page          -->
+                <div id="tabs-3">
+                    <h4>Select a yeast</h4>
+                    <label for='yeastMfg'>Select a manufacturer</label>
+                    <select name='yeastMfg' id='yeastMfg'>
+                        <option value='Fermentis'>Fermentis (Dry)</option>
+                        <option value='Wyeast'>Wyeast</option>
+                        <option value='White Labs'>White Labs</option>
+                    </select><br/>
+                    <label for='yeastName'>Yeast Strain</label>
+                    <input type='text' name='yeastName' id='yeastName'/><br/>
+                    <input type='submit' value="Add" onclick='addYeast()'/>
+                </div>
+            </div>
+            <div id='list'>
+                <div id="recipeListDiv">
+                    <h4>Select a recipe to view the details</h4>
+                    <ol id="recipeList">
+                        <li>You don't have any recipes yet!</li>
+                    </ol>
+                </div>
+                <div id='recipeDetailsContainer' class='details'>
+
+                </div>
+            </div>
+            <div id='how'>
+                <h2 align="center">How to make your own beer!</h2>
+                <p>People have been making their own beer since the beginning of
+                    recorded history, and now you can too! The idea behind beer, or
+                    more specifically ale, is actually incredibly simple: You make 
+                    food for the yeast, the yeast eat the food, and the end result is
+                    a delicious beverage cherished worldwide.  Now, the actual process
+                    is a lot more involved, so let's get started!  Click on the tabs
+                    below to learn more about the different steps of making beer.</p>
+                <div id='accordion' align='center'>
+                    <div id='setup'><a class='title' href='#'><h3>The Setup</h3></a>
+                        <section>
+                            <p>There's a lot of things to take into consideration
+                                before you start brewing beer. How many gallons are 
+                                you going to make?  Which method will you use?  Do 
+                                you have the right equipment to complete that method?
+                                Do you have a great recipe?  Most beginners in the 
+                                homebrewing world like to start off simple (and cheap)
+                                so they don't bite off more than they can chew.  The
+                                great thing about homebrewing is that there is always
+                                room to grow as a brewer.  However, starting small is
+                                never about thing.  The absolute essential equipment you'll need
+                                are: a kettle, a siphon, heavy-duty cleaner, Low-pH
+                                sanitizer, a fermentation vessel, some tubing, a 
+                                thermometer, a hydrometer, and some food-safe tubing.
+                                The actual size and type of those items will depend on
+                                your batch sizes.  Feel free to ask your local homebrew
+                                supply clerks for their input.  If you're not able to
+                                make it to a local store, check out some great sites
+                                like <a target='_blank' id='link' href='http://www.northernbrewer.com'>Northern Brewer</a>.</p>
+                            <p>Now that you've got your equipment, you'll need a
+                                recipe.  At Matt's Brew Site, it's easy to build your
+                                own beer with tools like auto-complete for popular hops
+                                and yeasts. Let's look at the 3 factors that go into
+                                each beer recipe:</p>
+                            <h5>Grains</h5>
+                            <p>The grains are a very big part of every
+                                beer.  The sugars that live in the grains are
+                                the food that the yeast need to produce alcohol.
+                                Most grain bills are made up of a majority of
+                                base malt, usually American 2-Row or British
+                                Marris Otter.  Caramel/Crystal malts are very
+                                popular for their sweetening, darkening, & 
+                                foaming characteristics.  Chocolate malt is 
+                                used for dark ales, such as stouts and porters,
+                                for its almost-black color and chocolatey-sweet
+                                taste.  Other popular malts include Victory & 
+                                Munich, which are used in a wide variety of beers, 
+                                from hoppy India Pale Ales to easy-drinking
+                                Brown Ales.  Brewers also use ingredients that 
+                                aren't malted barley, called adjuncts.  Popular
+                                adjuncts include flaked wheat and flaked oats.</p>
+                            <h5>Hops</h5>
+                            <p>Hops are the 'spice' of every beer recipe.
+                                Because beer is made of sugary-sweet water, you'll
+                                want to balance that out with some bitter flowers
+                                called hops.  Hops are used throughout the brewing
+                                process from mash-hopping to dry-hopping.  
+                                Brewers pick their hops based on the bittering 
+                                and aromatic capabilities.  An easy way to 
+                                measure the strength of hops is their Alpha 
+                                Acid levels, or AA%.  The more alpha acids a hop
+                                strain has, the more bitter it will make your beer.
+                                Popular hops include US Cascade and UK Willamette.</p>
+                            <h5>Yeast</h5>
+                            <p>Some brewers will say that the yeast is 
+                                the most important part of every beer. 
+                                "Happy yeast, happy ale!"  The biggest factors
+                                of a good fermentation are having enough yeast 
+                                to eat all of the sugars and keeping everything 
+                                at the proper temperature.  Each yeast strain 
+                                will have different characteristics that will 
+                                be imparted on your beer throughout the 
+                                fermentation.  Yeast characteristics include 
+                                the ester profile, phenolic profile, attenuation 
+                                level, flocculation rates, and temperature range.
+                                Use the yeast tab on Matt's Brew Site to find
+                                the right kind of yeast for your beer.</p>
+                        </section>
+                    </div>
+                    <div id='mash'><a class='title' href='#'><h3>The Mash</h3></a>
+                        <section>
+                            <p>The mash step is the first step of the brew day.  
+                                After you fill your kettle with your mash water and 
+                                get that heated to the correct mashing temperature 
+                                (usually 150&deg;F-156&deg;F) you either put your 
+                                grains inside a mesh bag and drop that into the water,
+                                or put the grains in a cooler (called a mash tun) and
+                                dump the hot water on top of the grains.  Now that the
+                                mash liquid is mixed with the grain, you have entered 
+                                the saccharification step.  During this hour-long step
+                                the maltose sugars in the grain are being extracted 
+                                into the liquid, pulling the color and taste of the 
+                                different malts with them.  Depending on your mashing 
+                                method, you'll also go through a vorlauf step, sparge step, and/or 
+                                a mash-out step.  These are optional and we'll ignore
+                                those for now. Onto the next step!</p>
+                        </section>
+                    </div>
+                    <div id='boil'><a class='title' href="#"><h3>The Boil</h3></a>
+                        <section>
+                            <p>Now that you've completed the mash step, you'll 
+                                seperate the grains from the sugary liquid, called the 
+                                wort, and get the wort into your boil kettle.  The boil 
+                                serves many purposes for the brew day.  It's used to 
+                                sanitize the wort and is the main point of hop additions,
+                                as well as a few other purposes.  Almost every recipe 
+                                you'll find will have hop additions at '60 minutes'.
+                                This means that you'll need to add that certain hop 
+                                charge with 60 minutes left in the boil.  Most ale boils
+                                are 60 minutes long, with a lot of lager boils taking 
+                                up to 90 minutes.  Hop additions with >30 minutes left 
+                                in the boil are mainly for used to bitter up the taste 
+                                of the beer, while additions closer to the end of the 
+                                boil are used to get a hoppy aroma.  Once the boil timer 
+                                has gone off, you're ready to cut the heat and chill
+                                the wort in preparation for the next step!</p>
+                        </section>
+                    </div>
+                    <div id='ferment'><a class='title' href='#'><h3>The Fermentation</h3></a>
+                        <section>
+                            <p>Up to this point you've gathered your equipment, 
+                                put together a recipe, mashed the grains, and boiled the 
+                                wort.  Now you're ready to turn that hoppy, sugary 
+                                wort into beer.  Well, you're ready to pitch the yeast 
+                                and let them do all of the work.  All you have to do 
+                                is put in enough yeast and make sure the temperature 
+                                is in the right range during fermentation.  Keep in 
+                                mind that after the wort has gone through the boil step,
+                                everything that comes into contact with the beer must 
+                                be sanitary.  You've created a paradise for microbes 
+                                that can ruin your beer if you're not careful.  Use 
+                                the sanitized siphon and tubing to transfer your cooled 
+                                wort into your cleaned and sanitized fermenter.  The 
+                                yeast also need plenty of oxygen to fuel their fermentation,
+                                so you'll want to vigorously shake the filled fermentor 
+                                for about a minute.  Now it's time to put in the yeast.
+                                Make sure you follow the directions on the package!
+                                Different yeasts call for different parameters for 
+                                pitching and fermentation.  Now that the yeast is in, 
+                                you're ready to wait!  Store the fermentor in a cool,
+                                dark place for the next 2-4 weeks.  Make sure to keep 
+                                the beer away from any sunlight or UV rays, as the acids 
+                                extracted from the hops will have a very unpleasant 
+                                reaction.  Beer fermentation is a beautiful thing to 
+                                watch, but try to not disturb the beer too much while 
+                                you wait.  After a few weeks, you're ready to bottle/keg 
+                                the beer and enjoy!</p>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>JSON About Me</title>
+		<style>
+			body {
+				background-color: #FFB054;
+			}
+			h2 {
+				font-size: 2em;
+                                text-align: center;
+				font-family: "Georgia", serif;
+				color: #780505;
+			}
+			p {
+				font-family: "Trebuchet MS", Helvetica, sans-serif;
+				color: #010140;
+                                font-size-adjust: inherit;
+			}
+		</style>
+	</head>	
+	<body>
+		<h2>JSON Object Creation in JavaScript</h2>
+		<br/>
+		<div id="main"></div>		
+		<script>
+			var MeComplex = [
+                            {
+				"Name":"Matt Rasmussen",
+				"Age":21,
+				"married":true,
+                                "color":"#3344ff",
+				"classes":["CSIS 2440","CSIS 2470","CSIS 2640"],
+				"Hobbies":{
+					"music":"<p>I love everything about music. I've been singing since I was a little kid. In middle school I taught myself drums and guitar, although I was painfully bad at both. Once I got to high school I started to hone my guitar skills and transfer some of that knowledge over to the piano. I enjoy writing and performing with my guitar and/or piano.</p>",
+					"family":"<p>Family means a lot to me. I absolutely love coming home to my beautiful wife Morgan and my playful dog, a 6 year old cocker spaniel named Mosby. I also enjoy spending time with my parents and siblings and even my in-laws.</p>"
+				}
+                            },
+                            {
+                                "Name":"Morgan Rasmussen",
+                                "Age":20,
+				"married":true,
+                                "color":"#ffffff",
+				"classes":["InDesign"],
+				"Hobbies":{
+					"music":"<p>I love everything about music. I've been singing since I was a little kid. In middle school I taught myself drums and guitar, although I was painfully bad at both. Once I got to high school I started to hone my guitar skills and transfer some of that knowledge over to the piano. I enjoy writing and performing with my guitar and/or piano.</p>",
+					"family":"<p>Family means a lot to me. I absolutely love coming home to my beautiful wife Morgan and my playful dog, a 6 year old cocker spaniel named Mosby. I also enjoy spending time with my parents and siblings and even my in-laws.</p>"
+				} 
+                            },
+                            {
+                                "Name":"Ben Sims",
+				"Age":35,
+				"married":false,
+                                "color":"#33eeee",
+				"classes":["Biology lab"],
+				"Hobbies":{
+					"music":"<p>I love everything about music. I've been singing since I was a little kid. In middle school I taught myself drums and guitar, although I was painfully bad at both. Once I got to high school I started to hone my guitar skills and transfer some of that knowledge over to the piano. I enjoy writing and performing with my guitar and/or piano.</p>",
+					"family":"<p>Family means a lot to me. I absolutely love coming home to my beautiful wife Morgan and my playful dog, a 6 year old cocker spaniel named Mosby. I also enjoy spending time with my parents and siblings and even my in-laws.</p>"
+				}
+                            },
+                            {
+                                "Name":"Jessica Shaw",
+				"Age":24,
+				"married":false,
+                                "color":"#FF4444",
+				"classes":["Nursing Stuff", "More Nursing Stuff"],
+				"Hobbies":{
+					"music":"<p>I love everything about music. I've been singing since I was a little kid. In middle school I taught myself drums and guitar, although I was painfully bad at both. Once I got to high school I started to hone my guitar skills and transfer some of that knowledge over to the piano. I enjoy writing and performing with my guitar and/or piano.</p>",
+					"family":"<p>Family means a lot to me. I absolutely love coming home to my beautiful wife Morgan and my playful dog, a 6 year old cocker spaniel named Mosby. I also enjoy spending time with my parents and siblings and even my in-laws.</p>"
+				}
+                            },
+                            {
+                                "Name":"Shane Subashe",
+				"Age":28,
+				"married":true,
+                                "color":"#FFFFFF",
+				"classes":["Engines", "Transmission", "Trucks"],
+				"Hobbies":{
+					"music":"<p>I love everything about music. I've been singing since I was a little kid. In middle school I taught myself drums and guitar, although I was painfully bad at both. Once I got to high school I started to hone my guitar skills and transfer some of that knowledge over to the piano. I enjoy writing and performing with my guitar and/or piano.</p>",
+					"family":"<p>Family means a lot to me. I absolutely love coming home to my beautiful wife Morgan and my playful dog, a 6 year old cocker spaniel named Mosby. I also enjoy spending time with my parents and siblings and even my in-laws.</p>"
+				}
+                            }
+                        ];
+			myFunction(MeComplex);
+			function myFunction(arr) {
+				var things = "Things about me:<br/>";
+				var i = 0;
+                                var len = arr.length;
+				while (i<len) {
+					things += "<div style=\"color:" + arr[i].color + "\"><p>" + arr[i].Name + " is " + arr[i].Age + " years old.";
+					if (arr[i].married) {
+						things += " " + arr[i].Name + " is married.</p>";
+					} else {
+						things += "</p>";
+					}
+					things += "<p>His/her favorite class this semester is " + arr[i].classes[0] + ".";
+					things += "</p><p>" + arr[i].Name + " has many hobbies. One of those hobbies is " + Object.keys(arr[i].Hobbies)[0] + ". Read on to hear what he/she has to say about it.</p>";
+					things +=  arr[i].Hobbies.music + "</div>";
+                                        i++;
+				}			
+                                document.getElementById("main").innerHTML = things;
+			}
+		</script>
+	</body>
+</html>
