@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Guitar Club Survey</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="styles/layout.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+        <script src="js/jquery.validate.min.js"></script>
+        <script>
+            $(document).ready(function(){
+                $('#survey').validate({
+                    rules: {
+                        email: {
+                            required: true,
+                            email: true
+                        },
+                        own1: "required"
+                    },
+                    messages: {
+                      email: "Please enter your email.",
+                      own1: "Please let me know if you can bring your own guitar."
+                    },
+                    errorLabelContainer: '#error',
+                    wrapper: "p"
+                });//end validate
+                $('.1').click(function(evt) {
+                    val = document.querySelector('input[name="own1"]:checked').value;
+                    if (val === "1" || val === "2") {
+                        $('.own').slideDown(200);
+                    } else {
+                        $('.own').slideUp(200);
+                    }
+                });//end 1 click
+                $('.2').click(function(evt) {
+                    val = document.querySelector('input[name="own"]:checked').value;
+                    if (val === "2") {
+                        $('.elec').slideDown(200);
+                    } else {
+                        $('.elec').slideUp(200);
+                    }
+                });//end 2 click
+                $('.3').click(function(evt) {
+                    val = document.querySelector('input[name="lesson"]:checked').value;
+                    if (val === "1") {
+                        $('.crclm').slideDown(200);
+                    } else {
+                        $('.crclm').slideUp(200);
+                    }
+                });//end 3 click
+            });//end ready
+        </script>
+    </head>
+    <body>
+        <div class="container">
+        <div class="head">
+            <header><h2>Nelson Labs Guitar Club Survey</h2></header>
+        </div>
+        <div class="content">
+            <img src="images/guitar.jpg" alt=""/>
+            <form method="post" action="surveyLog.php" name="survey" id="survey">
+                <p id="error"></p>
+                <p><span>Do you own a guitar?</span><br>
+                    <input class="1" type="radio" name="own1" value="1"/>Yes<br>
+                    <input class="1" type="radio" name="own1" value="2"/>No, but I can borrow & bring one<br>
+                    <input class="1" type="radio" name="own1" value="3"/>No</p>
+                <p class="hide own"><span>What kind of guitar?</span><br>
+                    <input class="2" type="radio" name="own" value="1"/>I can bring an acoustic guitar.<br>
+                    <input class="2" type="radio" name="own" value="2"/>I can bring an electric guitar.<br>
+                </p>
+                <p class="hide elec"><span>How is your amp control?</span><br>
+                    <input type="radio" name="elec" value="1"/>I wouldn't need to bring my amp.<br>
+                    <input type="radio" name="elec" value="2"/>I'm great at keeping my amp volume at 3<br>
+                    <input type="radio" name="elec" value="3"/>My volume knob is stuck at 11
+                </p>
+                <p><span>How would you rate your guitar skills?</span><br>
+                    <input type="radio" name="exp" value="1"/>I've never played before<br>
+                    <input type="radio" name="exp" value="2"/>I learned 'Iron Man' one time several years ago<br>
+                    <input type="radio" name="exp" value="3"/>I know my C, D, and G chords<br>
+                    <input type="radio" name="exp" value="4"/>I've been playing for years, what song do you want to hear?<br>
+                    <input type="radio" name="exp" value="5"/>Clapton ain't got nothin on me
+                </p>
+                <p><span>How long would you like the meetings to be?</span><br>
+                    <input type="radio" name="time" value="1"/>30 Minutes<br>
+                    <input type="radio" name="time" value="2"/>60 Minutes<br>
+                    <input type="radio" name="time" value="3"/>90 Minutes<br>
+                    <input type="radio" name="time" value="4"/>'Til the jammin dies, man!
+                </p>
+                <p><span>Would you like some meeting time spent on a short lesson?</span><br>
+                    <input class="3" type="radio" name="lesson" value="1"/>Yes<br>
+                    <input class="3" type="radio" name="lesson" value="2"/>No
+                </p>
+                <p class="hide crclm"><span>What are you interested in learning?</span><br>
+                    <input type="checkbox" name="crclm[]" value="1"/>Scales<br>
+                    <input type="checkbox" name="crclm[]" value="2"/>Chords<br>
+                    <input type="checkbox" name="crclm[]" value="3"/>Tabs<br>
+                    <input type="checkbox" name="crclm[]" value="4"/>Free Bird<br>
+                    <input type="checkbox" name="crclm[]" value="5"/>Music Theory<br>
+                    <input type="checkbox" name="crclm[]" value="6"/>Sweeps and pinch harmonics!
+                </p>
+                <p><span>Would you be interested in performing?</span><br>
+                    <input type="radio" name="play" value="1"/>Absolutely!<br>
+                    <input type="radio" name="play" value="2"/>Maybe with some coaxing<br>
+                    <input type="radio" name="play" value="3"/>Probably not<br>
+                    <input type="radio" name="play" value="4"/>Not a chance
+                </p>
+                <p><span>Which night of the week would work best for you?</span><br>
+                    <input type="radio" name="week" value="1"/>Monday<br>
+                    <input type="radio" name="week" value="2"/>Tuesday<br>
+                    <input type="radio" name="week" value="3"/>Wednesday<br>
+                    <input type="radio" name="week" value="4"/>Thursday<br>
+                    <input type="radio" name="week" value="5"/>Friday
+                </p>
+                <p><span>Please enter your Nelson Labs email address</span><br>
+                    <input type="email" name="email" placeholder="Enter your email"/>
+                </p>
+                <p>
+                    <input type="submit"/>
+                </p>
+            </form>
+        </div>
+        </div>
+    </body>
+</html>

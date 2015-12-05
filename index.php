@@ -1,17 +1,18 @@
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
+<!--WebSiteHome-->
 <html>
     <head>
         <meta charset="UTF-8">
-        <title></title>
+        <title>Matt's Web Server</title>
     </head>
     <body>
+        <h2 align='center'>Please select a course below</h2>
+        <p><a href="/WebDev/first.html">CSIS 2440</a></p>
+        <p><a href="/WebProg/index.php">CSIS 2470</a></p>
+        <p><a href="mediaTest.php">Styles Test</a></p>
+        <p><a href="surveyResults.php">Survey Results</a></p>
         <?php
-        // put your code here
+            echo 'Computer programming is cool';
         ?>
     </body>
 </html>
