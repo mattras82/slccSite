@@ -3,7 +3,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Matt's SLCC/Miscellaneous Web Server</title>
+        <title>Matt's First Web Server</title>
     </head>
     <body>
         <h2 align='center'>Please select a course below</h2>
