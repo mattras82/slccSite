@@ -13,6 +13,7 @@ and open the template in the editor.
         <script type="javascript">
             alert("This is working!");
         </script>
+        <h2>This isn't working</h2>
         <?php
         // put your code here
         ?>
